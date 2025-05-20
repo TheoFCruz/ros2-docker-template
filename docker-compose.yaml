@@ -1,0 +1,24 @@
+services:
+  ros:
+    build: .
+    container_name: ros_jazzy
+    volumes:
+      - ./ros2_ws:/home/jazzy/ros2_ws
+      - /tmp/.X11-unix:/tmp/.X11-unix  # Socket do X11 para interfaces gráficas
+      - /dev/dri:/dev/dri # Drivers da intel para usar a gpu
+
+      - ~/.config/nvim:/home/jazzy/.config/nvim
+
+    environment:
+      - XDG_CONFIG_HOME=/home/jazzy/.config
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1 # Necessário para interfaces gŕaficas
+
+    tty: true
+    stdin_open: true
+
+    ulimits:
+      nofile:
+        hard: 524288
+        soft: 1024
+
